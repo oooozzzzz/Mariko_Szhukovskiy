@@ -3,7 +3,7 @@ import { ownerMenu } from "./menus/ownerMenu.js";
 import { startMenu } from "./menus/startMenu.js";
 
 export const toMainMenu = async (ctx) => {
-	await ctx.msg.delete();
+	// await ctx.msg.delete();
 	await ctx.reply(ctx.t("start"), {reply_markup: startMenu})
 };
 

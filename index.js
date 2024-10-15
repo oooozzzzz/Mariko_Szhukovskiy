@@ -9,6 +9,7 @@
 // const { getAdminPassword, getOwnerPassword } = require("./password");
 // const photoHandler = require("./handlers/photoHandler");
 
+import { getBookingData } from "./bookingOrder.js";
 import { bot } from "./bot.js";
 import { getAdminPassword, getOwnerPassword } from "./db.js";
 import { adminHandler } from "./handlers/adminHandler.js";
@@ -33,11 +34,13 @@ bot.callbackQuery("toMenu", async (ctx) => {
 bot.callbackQuery("yes", async (ctx) => {
 	await ctx.reply(`Спасибо за бронирование! Скоро с вами свяжется менеджер для подтверждения. Мы с нетерпением ждем вас в гости в «Хачапури Марико»!
 До скорой встречи, Дорогой❤️`);
+// console.log(ctx.session)
+const order = getBookingData(ctx.from.id)
 	const text = `Новый заказ на бронирование столика:
-День бронирования: ${ctx.session.day}
-Время бронирования: ${ctx.session.time}
-Количество гостей: ${ctx.session.guests}
-Особые пожелания: ${ctx.session.wishes}
+День бронирования: ${order.day}
+Время бронирования: ${order.time}
+Количество гостей: ${order.guests}
+Особые пожелания: ${order.wishes}
 `;
 	await ctx.api.sendMessage(762569950, text);
 	ctx.answerCallbackQuery();

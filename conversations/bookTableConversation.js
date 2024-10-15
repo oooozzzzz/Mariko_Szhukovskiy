@@ -1,3 +1,4 @@
+import { signOrder } from "../bookingOrder.js";
 import { confirmBookingKeyboard } from "../keyboards/confirmBookingKeyboard.js";
 import { numberOfPersonsKeyboard } from "../keyboards/numberOfPersonsKeyboard.js";
 import { timePickKeyboard } from "../keyboards/timePickKeyboard.js";
@@ -75,7 +76,6 @@ const makeOrder = async (conversation, ctx) => {
 		});
 	}
 
-
 	await ctx.reply(
 		`Итак, вот детали Вашего бронирования:
 День бронирования: ${ctx.session.day}
@@ -86,7 +86,9 @@ const makeOrder = async (conversation, ctx) => {
 `,
 		{ reply_markup: confirmBookingKeyboard }
 	);
+	return { day, time, guests, wishes };
 };
 export const bookTable = async (conversation, ctx) => {
-	await makeOrder(conversation, ctx);
+	const { day, time, guests, wishes } = await makeOrder(conversation, ctx);
+	signOrder(ctx.from.id, { day, time, guests, wishes });
 };
