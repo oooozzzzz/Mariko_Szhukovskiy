@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(uuid())
+  tg_id       String       @unique
+  first_name  String
+  createdAt   DateTime     @default(now())
+  birthday    DateTime?
+  isAdmin     Boolean      @default(false)
+  comments    Comment[]
+  preferences Preference[]
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  tg_id      String
+  content    String
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  isPositive Boolean
+}
+
+model Preference {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  value     String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model Password {
+  label String @id
+  value String
+}
