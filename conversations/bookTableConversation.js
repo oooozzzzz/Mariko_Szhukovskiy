@@ -74,6 +74,8 @@ const makeOrder = async (conversation, ctx) => {
 			reply_markup: toMainMenuKeyboard(),
 		});
 	}
+
+
 	await ctx.reply(
 		`Итак, вот детали Вашего бронирования:
 День бронирования: ${ctx.session.day}

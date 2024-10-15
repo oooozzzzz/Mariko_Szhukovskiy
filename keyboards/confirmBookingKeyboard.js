@@ -5,4 +5,4 @@ export const confirmBookingKeyboard = new InlineKeyboard()
 	.row()
 	.text("Не совсем..", "no")
 	.row()
-	.text("Отменить бронирование", "cancel");
+	.text("Отменить бронирование", "cancelBooking");

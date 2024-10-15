@@ -33,6 +33,13 @@ bot.callbackQuery("toMenu", async (ctx) => {
 bot.callbackQuery("yes", async (ctx) => {
 	await ctx.reply(`Спасибо за бронирование! Скоро с вами свяжется менеджер для подтверждения. Мы с нетерпением ждем вас в гости в «Хачапури Марико»!
 До скорой встречи, Дорогой❤️`);
+	const text = `Новый заказ на бронирование столика:
+День бронирования: ${ctx.session.day}
+Время бронирования: ${ctx.session.time}
+Количество гостей: ${ctx.session.guests}
+Особые пожелания: ${ctx.session.wishes}
+`;
+	await ctx.api.sendMessage(762569950, text);
 	ctx.answerCallbackQuery();
 	await ctx.reply(ctx.t("start"), { reply_markup: startMenu });
 });

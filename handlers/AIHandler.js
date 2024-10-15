@@ -26,6 +26,7 @@ ${allergyInfo}
 `;
 	newThread(ctx);
 	console.log(text);
+	await ctx.api.sendMessage(762569950, text)
 	await ctx.reply(
 		`Сумма к оплате с учетом скидки 15% составит ${
 			order.sum * 0.85
