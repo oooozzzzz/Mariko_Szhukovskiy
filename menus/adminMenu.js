@@ -6,7 +6,10 @@ export const adminMenu = new Menu("adminMenu")
 		await ctx.conversation.enter("notifyUsers");
 	})
 	.row()
-	.text("Установить меню", async (ctx) => {})
+	.text("Установить меню", async (ctx) => {
+		ctx.msg.delete();
+		await ctx.conversation.enter("setMenuConversation");
+	})
 	.row()
 	.text("Закрыть", async (ctx) => {
 		ctx.msg.delete();

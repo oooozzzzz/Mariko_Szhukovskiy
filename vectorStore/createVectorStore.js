@@ -2,7 +2,7 @@ import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase"
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { createClient } from "@supabase/supabase-js";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { loader } from "../loaders.js";
+// import { loader } from "../loaders.js";
 import { client } from "./supabaseClient.js";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -11,9 +11,9 @@ const embeddings = new OpenAIEmbeddings({
 	configuration: { baseURL: "https://api.proxyapi.ru/openai/v1/" },
 });
 
-const menu = await loader.load();
+// const menu = await loader.load();
 
-export const createTable = async (name) => {
+export const createTable = async (name, menu) => {
 	console.log("creating new table...")
 	try {
 		await SupabaseVectorStore.fromDocuments(menu, embeddings, {

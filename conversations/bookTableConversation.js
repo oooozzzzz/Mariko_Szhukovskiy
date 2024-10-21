@@ -53,6 +53,12 @@ const makeOrder = async (conversation, ctx) => {
 		"Сколько гостей ожидаем?",
 		"guests"
 	);
+	const number = await ask(
+		conversation,
+		ctx,
+		"По какому номеру с Вами можно связаться для подтверждения брони?",
+		"number"
+	);
 	if (guests === "6 и более") {
 		await ctx.reply(`Дорогой, для такой большой компании рекомендуем сделать предзаказ в ресторане.
 			
@@ -77,18 +83,22 @@ const makeOrder = async (conversation, ctx) => {
 	}
 
 	await ctx.reply(
-		`Итак, вот детали Вашего бронирования:
-День бронирования: ${ctx.session.day}
-Время бронирования: ${ctx.session.time}
+		`Генацвале, спасибо за информацию! Давайте проверим ваше бронирование:
+Дата: ${ctx.session.day}
+Время: ${ctx.session.time}
 Количество гостей: ${ctx.session.guests}
+Номер телефона: ${ctx.session.number}
 Особые пожелания: ${ctx.session.wishes}
 Все верно?
 `,
 		{ reply_markup: confirmBookingKeyboard }
 	);
-	return { day, time, guests, wishes };
+	return { day, time, guests, wishes, number };
 };
 export const bookTable = async (conversation, ctx) => {
-	const { day, time, guests, wishes } = await makeOrder(conversation, ctx);
-	signOrder(ctx.from.id, { day, time, guests, wishes });
+	const { day, time, guests, wishes, number } = await makeOrder(
+		conversation,
+		ctx
+	);
+	signOrder(ctx.from.id, { day, time, guests, wishes, number });
 };

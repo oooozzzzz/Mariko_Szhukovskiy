@@ -6,7 +6,7 @@ export const startHandler = async (ctx) => {
 	await ctx.msg.delete();
 	newThread(ctx)
 	if (ctx.session.toChat) {
-		await ctx.reply("Хорошо, отменяем заказ. Если будут какие-то вопросы, обязатеьлно задавайте!")
+		await ctx.reply("Хорошо, отменяем заказ. Если будут какие-то вопросы, обязательно задавайте!")
 	}
 	ctx.session.toChat = false
 	await createUser(ctx.from.id, ctx.from.first_name);

@@ -1,5 +1,5 @@
 import { toMainMenuKeyboard } from "../keyboards/toMainMenuKeyboard.js";
-import { loader } from "../loaders.js";
+// import { loader } from "../loaders.js";
 import { getAnswer, newThread } from "../services.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -26,7 +26,7 @@ ${allergyInfo}
 `;
 	newThread(ctx);
 	console.log(text);
-	await ctx.api.sendMessage(762569950, text)
+	await ctx.api.sendMessage(762569950, text);
 	await ctx.reply(
 		`Сумма к оплате с учетом скидки 15% составит ${
 			order.sum * 0.85
@@ -41,9 +41,14 @@ export const AIHandler = async (ctx) => {
 	if (ctx.session.toChat) {
 		await ctx.api.sendChatAction(ctx.from.id, "typing");
 		const thread = ctx.session.thread_id;
-		const { answer, order } = await getAnswer(ctx.msg.text, thread);
+		const { answer, order, photo } = await getAnswer(ctx.msg.text, thread);
 		console.log(answer);
-		await ctx.reply(answer);
+		console.log(photo);
+		if (photo) {
+			await ctx.replyWithPhoto(photo, { caption: answer });
+		} else {
+			await ctx.reply(answer);
+		}
 		order?.isCompleted ? await handleOrder(ctx, order) : null;
 	}
 };

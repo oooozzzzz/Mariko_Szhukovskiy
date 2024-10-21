@@ -40,6 +40,7 @@ const order = getBookingData(ctx.from.id)
 День бронирования: ${order.day}
 Время бронирования: ${order.time}
 Количество гостей: ${order.guests}
+Номер телефона: ${order.number}
 Особые пожелания: ${order.wishes}
 `;
 	await ctx.api.sendMessage(762569950, text);

@@ -6,6 +6,8 @@ import http from "http";
 import { getAllUsers } from "./db.js";
 import https from "https";
 import { Readable } from "stream";
+import { readFileSync } from "fs";
+import { read } from "xlsx/xlsx.mjs";
 import dotenv from "dotenv";
 import { toAdminMenuKeyboard } from "./keyboards/toAdminMenuKeyboard.js";
 import { v4 as uuidv4 } from "uuid";
@@ -36,9 +38,22 @@ export const getAnswer = async (input, thread_id) => {
 };
 
 export const convertFileToCSV = async (inputFilename, outputFilename) => {
-	const workBook = XLSX.readFile(inputFilename);
-	// XLSX.writeFile(workBook, outputFilename, { bookType: "csv",});
-	const csv = XLSX.utils.sheet_to_csv(workBook, { FS: ";" });
+	const buf = readFileSync(inputFilename);
+	const workbook = read(buf);
+	const ws = workbook.Sheets[workbook.SheetNames[0]];
+
+	const csv = XLSX.utils.sheet_to_csv(ws, {
+		// FS: ",",
+		// RS: ";",
+	});
+	// console.log(csv);
+
+	fs.writeFile(
+		"./menu.csv",
+		csv,
+		(err) => {}
+		// { bookType: "csv",}
+	);
 	console.log("CSV file created successfully");
 };
 
@@ -101,8 +116,8 @@ export const copyMessageToUsers = async (ctx) => {
 };
 
 export const newThread = (ctx) => {
-	ctx.session.thread_id = uuidv4()
-}
+	ctx.session.thread_id = uuidv4();
+};
 
 export const toPref = (ctx) => {
 	const query = ctx.callbackQuery.data;

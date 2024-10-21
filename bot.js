@@ -38,6 +38,7 @@ import { answerQuestion } from "./conversations/answerConversation.js";
 import { askQuestion } from "./conversations/askConversation.js";
 import { notifyUsers } from "./conversations/notifyUsers.js";
 import { bookTable } from "./conversations/bookTableConversation.js";
+import { setMenuConversation } from "./conversations/setMenuConversation.js";
 
 
 const token = process.env.TOKEN;
@@ -80,6 +81,7 @@ bot.use(createConversation(changeOwnerPassword));
 bot.use(createConversation(answerQuestion));
 bot.use(createConversation(askQuestion));
 bot.use(createConversation(bookTable));
+bot.use(createConversation(setMenuConversation));
 // bot.use(createConversation(handleNegativeReview));
 // bot.use(createConversation(handlePositiveReview));
 // bot.use(createConversation(createPoll));
