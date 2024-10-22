@@ -10,6 +10,4 @@ export const llm = new ChatOpenAI({
 	// topLogprobs: 2,
 	// logprobs: true
 	// topP: 0.2,
-
-
 });
