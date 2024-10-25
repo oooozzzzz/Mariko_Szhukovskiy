@@ -101,7 +101,6 @@ bot.on(":text", async (ctx) => {
 });
 
 bot.on(":file", async (ctx) => {
-	await tableHandler(ctx);
 });
 
 bot.callbackQuery(/-/, async (ctx) => {

@@ -30,6 +30,7 @@
 		"express": "^4.19.2",
 		"grammy": "^1.29.0",
 		"langchain": "^0.3.2",
+		"langsmith": "^0.2.0",
 		"nodemon": "^3.1.4",
 		"openai": "^4.59.0",
 		"uuid": "^10.0.0",

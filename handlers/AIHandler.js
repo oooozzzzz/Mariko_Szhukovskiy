@@ -16,7 +16,7 @@ const handleOrder = async (ctx, order) => {
 			: "Аллергии нет"
 	}
 	`;
-	const text = `Заказ:
+	const text = `<b>Заказ на самовывоз:</b>
 ${foodInfo}
 ${allergyInfo}
 Время забора: ${order.timeToPickUpTheOrder}
@@ -41,14 +41,29 @@ export const AIHandler = async (ctx) => {
 	if (ctx.session.toChat) {
 		await ctx.api.sendChatAction(ctx.from.id, "typing");
 		const thread = ctx.session.thread_id;
-		const { answer, order, photo } = await getAnswer(ctx.msg.text, thread);
-		console.log(answer);
-		console.log(photo);
-		if (photo) {
-			await ctx.replyWithPhoto(photo, { caption: answer });
-		} else {
-			await ctx.reply(answer);
+		try {
+			const { answer, order, photo } = await getAnswer(ctx.msg.text, thread);
+			console.log(answer);
+			console.log(photo);
+			if (photo) {
+				await ctx.api.sendPhoto(ctx.from.id, photo, { caption: answer });
+			} else {
+				await ctx.reply(answer);
+			}
+			order?.isCompleted ? await handleOrder(ctx, order) : null;
+		} catch (error) {
+			console.error(error);
+			const err = error.description;
+			if (err === "Bad Request: wrong file identifier/HTTP URL specified") {
+				await ctx.reply(
+					"Сейчас Телеграм не позволяет мне отправить фото, повторите попытку позже. Чем Вы хотите дополнить свой заказ?"
+				);
+				await ctx.reply(answer);
+			} else {
+				await ctx.reply(
+					"Извините, не совсем поняла Вас. Можете, пожалуйста, повторить?"
+				);
+			}
 		}
-		order?.isCompleted ? await handleOrder(ctx, order) : null;
 	}
 };

@@ -19,7 +19,7 @@ const vectorStore = new SupabaseVectorStore(embeddings, {
 	queryName: "match_menu",
 });
 
-const retriever = vectorStore.asRetriever({ k: 5 });
+const retriever = (n) => vectorStore.asRetriever({ k: n });
 
 export { retriever, vectorStore };
 
