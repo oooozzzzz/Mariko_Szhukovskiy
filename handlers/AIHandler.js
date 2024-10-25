@@ -24,7 +24,7 @@ ${allergyInfo}
 Способ оплаты: ${order.paymentMethod}
 Количество столовых приборов: ${order.cutlery}
 
-Телеграм пользователя: ${ctx.from.username}
+Телеграм пользователя: @${ctx.from.username}
 `;
 
 	const sum = order.menuItems
