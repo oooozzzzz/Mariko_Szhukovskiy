@@ -23,13 +23,20 @@ ${allergyInfo}
 Номер телефона: ${order.phoneNumber}
 Способ оплаты: ${order.paymentMethod}
 Количество столовых приборов: ${order.cutlery}
+
+Телеграм пользователя: ${ctx.from.username}
 `;
+
+	const sum = order.menuItems
+		.map((item) => item.amount * item.price)
+		.reduce((accumulator, curValue) => accumulator + curValue, 0);
+
 	newThread(ctx);
 	console.log(text);
 	await ctx.api.sendMessage(762569950, text);
 	await ctx.reply(
 		`Сумма к оплате с учетом скидки 15% составит ${
-			order.sum * 0.85
+			sum * 0.85
 		} рублей. Ждем Вас в ресторане Марико!`,
 		{
 			reply_markup: toMainMenuKeyboard(),
