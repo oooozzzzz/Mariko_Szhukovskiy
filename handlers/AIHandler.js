@@ -1,6 +1,6 @@
 import { toMainMenuKeyboard } from "../keyboards/toMainMenuKeyboard.js";
 // import { loader } from "../loaders.js";
-import { getAnswer, newThread } from "../services.js";
+import { clearMessageHistory, getAnswer, newThread } from "../services.js";
 import { v4 as uuidv4 } from "uuid";
 
 const handleOrder = async (ctx, order) => {
@@ -27,11 +27,11 @@ ${allergyInfo}
 Телеграм пользователя: @${ctx.from.username}
 `;
 
-	const sum = order.menuItems
-		.map((item) => item.amount * item.price)
-		.reduce((accumulator, curValue) => accumulator + curValue, 0);
+	let sum = order.menuItems.map((item) => item.amount * item.price);
+	console.log(sum);
+	sum = sum.reduce((accumulator, curValue) => accumulator + curValue, 0);
 
-	newThread(ctx);
+	await newThread(ctx);
 	console.log(text);
 	await ctx.api.sendMessage(762569950, text);
 	await ctx.reply(
@@ -48,6 +48,10 @@ export const AIHandler = async (ctx) => {
 	if (ctx.session.toChat) {
 		await ctx.api.sendChatAction(ctx.from.id, "typing");
 		const thread = ctx.session.thread_id;
+		if (ctx.msg.text === "!!") {
+			await clearMessageHistory(thread);
+			return await ctx.reply("История очищена");
+		}
 		try {
 			const { answer, order, photo } = await getAnswer(ctx.msg.text, thread);
 			console.log(answer);

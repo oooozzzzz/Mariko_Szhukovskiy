@@ -4,7 +4,7 @@ import { newThread } from "../services.js";
 
 export const startHandler = async (ctx) => {
 	await ctx.msg.delete();
-	newThread(ctx)
+	await newThread(ctx)
 	if (ctx.session.toChat) {
 		await ctx.reply("Хорошо, отменяем заказ. Если будут какие-то вопросы, обязательно задавайте!")
 	}

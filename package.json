@@ -22,6 +22,7 @@
 		"@langchain/community": "^0.3.4",
 		"@langchain/core": "^0.2.34",
 		"@langchain/langgraph": "^0.2.14",
+		"@langchain/langgraph-checkpoint-sqlite": "^0.1.2",
 		"@langchain/openai": "^0.3.5",
 		"@prisma/client": "^5.18.0",
 		"@supabase/supabase-js": "^2.45.4",
@@ -33,6 +34,7 @@
 		"langsmith": "^0.2.0",
 		"nodemon": "^3.1.4",
 		"openai": "^4.59.0",
+		"sqlite3": "^5.1.7",
 		"uuid": "^10.0.0",
 		"xlsx": "^0.18.5",
 		"zod": "^3.23.8"

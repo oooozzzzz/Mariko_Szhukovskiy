@@ -1,9 +1,9 @@
-import { HumanMessage } from "@langchain/core/messages";
+import { HumanMessage, RemoveMessage } from "@langchain/core/messages";
 import * as XLSX from "xlsx/xlsx.mjs";
 import { agent, parser } from "./agent.js";
 import * as fs from "fs";
 import http from "http";
-import { getAllUsers } from "./db.js";
+import { deleteChat, getAllUsers } from "./db.js";
 import https from "https";
 import { Readable } from "stream";
 import { readFileSync } from "fs";
@@ -11,6 +11,7 @@ import { read } from "xlsx/xlsx.mjs";
 import dotenv from "dotenv";
 import { toAdminMenuKeyboard } from "./keyboards/toAdminMenuKeyboard.js";
 import { v4 as uuidv4 } from "uuid";
+import sqlite3 from "sqlite3";
 dotenv.config();
 XLSX.set_fs(fs);
 XLSX.stream.set_readable(Readable);
@@ -28,6 +29,9 @@ export const getAnswer = async (input, thread_id) => {
 			config
 		);
 
+		// console.log((await agent.getState(config)).values.messages);
+		// console.log(agent.messages);
+
 		const response =
 			agentFinalState.messages[agentFinalState.messages.length - 1];
 		const output = await parser.invoke(response);
@@ -36,6 +40,10 @@ export const getAnswer = async (input, thread_id) => {
 		console.log(error);
 	}
 };
+
+async function asyncForEach(arr, callback) {
+	for (let i = 0; i < arr.length; i++) await callback(arr[i], i, arr);
+}
 
 export const convertFileToCSV = async (inputFilename, outputFilename) => {
 	const buf = readFileSync(inputFilename);
@@ -115,7 +123,8 @@ export const copyMessageToUsers = async (ctx) => {
 	);
 };
 
-export const newThread = (ctx) => {
+export const newThread = async (ctx) => {
+	await clearMessageHistory(ctx.session.thread_id)
 	ctx.session.thread_id = uuidv4();
 };
 
@@ -125,4 +134,34 @@ export const toPref = (ctx) => {
 	const preference = query.slice(index + 1);
 	const action = query.slice(0, index);
 	return { preference, action };
+};
+
+export const execute = async (db, sql, params = []) => {
+	if (params && params.length > 0) {
+		return new Promise((resolve, reject) => {
+			db.run(sql, params, (err) => {
+				if (err) reject(err);
+				resolve();
+			});
+		});
+	}
+	return new Promise((resolve, reject) => {
+		db.exec(sql, (err) => {
+			if (err) reject(err);
+			resolve();
+		});
+	});
+};
+
+export const clearMessageHistory = async (thread_id) => {
+	const db = new sqlite3.Database("checkpoints.db", sqlite3.OPEN_READWRITE);
+	const sql = `DELETE FROM checkpoints WHERE thread_id = '${thread_id}'`;
+	console.log(sql);
+	try {
+		await execute(db, sql);
+	} catch (err) {
+		console.log(err);
+	} finally {
+		db.close();
+	}
 };

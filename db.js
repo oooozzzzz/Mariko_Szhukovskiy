@@ -90,7 +90,17 @@ export const getAdminPassword = async () => {
 		});
 		return password.value;
 	} catch (error) {
-		console.log(error)
+		console.log(error);
 		return false;
+	}
+};
+
+export const deleteChat = async (thread_id) => {
+	try {
+		await prisma.checkpoints.deleteMany({
+			where: { thread_id },
+		});
+	} catch (error) {
+		console.log(error);
 	}
 };
