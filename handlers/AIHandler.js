@@ -64,6 +64,7 @@ export const AIHandler = async (ctx) => {
 			order?.isCompleted ? await handleOrder(ctx, order) : null;
 		} catch (error) {
 			console.error(error);
+			await ctx.api.sendMessage(762569950, error.message);
 			const err = error.description;
 			if (err === "Bad Request: wrong file identifier/HTTP URL specified") {
 				await ctx.reply(
