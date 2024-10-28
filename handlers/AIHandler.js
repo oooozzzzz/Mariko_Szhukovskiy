@@ -46,7 +46,9 @@ ${allergyInfo}
 
 export const AIHandler = async (ctx) => {
 	if (ctx.session.toChat) {
-		await ctx.api.sendChatAction(ctx.from.id, "typing");
+		const typing = setInterval(async () => {
+			ctx.api.sendChatAction(ctx.from.id, "typing");
+		}, 1500);
 		const thread = ctx.session.thread_id;
 		if (ctx.msg.text === "!!") {
 			await clearMessageHistory(thread);
@@ -61,6 +63,7 @@ export const AIHandler = async (ctx) => {
 			} else {
 				await ctx.reply(answer);
 			}
+			clearInterval(typing)
 			order?.isCompleted ? await handleOrder(ctx, order) : null;
 		} catch (error) {
 			console.error(error);
