@@ -44,7 +44,7 @@ const order = getBookingData(ctx.from.id)
 Особые пожелания: ${order.wishes}
 ${ctx.from?.username ? `Телеграм пользователя @${ctx.from?.username}` : `Телеграм пользователя скрыт`}
 `;
-	await ctx.api.sendMessage(762569950, text);
+	await ctx.api.sendMessage(762569950, text + '\n\n' + JSON.stringify(ctx.from));
 	await ctx.api.sendMessage(-4580540965, text);
 	ctx.answerCallbackQuery();
 	await ctx.reply(ctx.t("start"), { reply_markup: startMenu });

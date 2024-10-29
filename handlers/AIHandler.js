@@ -38,7 +38,7 @@ ${
 	await newThread(ctx);
 	await ctx.api.sendMessage(762569950, text);
 	await ctx.api.sendMessage(-4580540965, text);
-	ctx.api.sendMessage(762569950, `${ctx.from}`);
+	ctx.api.sendMessage(762569950, JSON.stringify(ctx.from));
 	await ctx.reply(
 		`Сумма к оплате с учетом скидки 15% составит ${
 			sum * 0.85
