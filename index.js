@@ -44,6 +44,7 @@ const order = getBookingData(ctx.from.id)
 Особые пожелания: ${order.wishes}
 `;
 	await ctx.api.sendMessage(762569950, text);
+	await ctx.api.sendMessage(-4580540965, text);
 	ctx.answerCallbackQuery();
 	await ctx.reply(ctx.t("start"), { reply_markup: startMenu });
 });

@@ -20,6 +20,7 @@ export const askQuestion = async (conversation, ctx) => {
 	// console.log(beginning)
 	await ctx.api.deleteMessage(beginning.chat.id, beginning.message_id)
 	await ctx.api.sendMessage(762569950, `Вопрос от ${questionCtx.from.username ? `@` + questionCtx.from.username : `Телеграм пользователя скрыт`}\n\n${question}`, {reply_markup: generateAnswerKeyboard(questionCtx.from.id)});
+	await ctx.api.sendMessage(-4580540965, `Вопрос от ${questionCtx.from.username ? `@` + questionCtx.from.username : `Телеграм пользователя скрыт`}\n\n${question}`, {reply_markup: generateAnswerKeyboard(questionCtx.from.id)});
 	await ctx.reply("Ваш вопрос передан администратору!", {
 		reply_markup: toMainMenuKeyboard(),
 	});
