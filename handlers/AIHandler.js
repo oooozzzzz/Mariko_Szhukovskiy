@@ -24,7 +24,11 @@ ${allergyInfo}
 Способ оплаты: ${order.paymentMethod}
 Количество столовых приборов: ${order.cutlery}
 
-Телеграм пользователя: @${ctx.from.username}
+${
+	ctx.from.username
+		? `Телеграм пользователя: @${ctx.from.username}`
+		: `Телеграм пользователя скрыт`
+}
 `;
 
 	let sum = order.menuItems.map((item) => item.amount * item.price);
@@ -32,8 +36,8 @@ ${allergyInfo}
 	sum = sum.reduce((accumulator, curValue) => accumulator + curValue, 0);
 
 	await newThread(ctx);
-	console.log(text);
 	await ctx.api.sendMessage(762569950, text);
+	ctx.api.sendMessage(762569950, `${ctx.from}`);
 	await ctx.reply(
 		`Сумма к оплате с учетом скидки 15% составит ${
 			sum * 0.85
@@ -63,7 +67,7 @@ export const AIHandler = async (ctx) => {
 			} else {
 				await ctx.reply(answer);
 			}
-			clearInterval(typing)
+			clearInterval(typing);
 			order?.isCompleted ? await handleOrder(ctx, order) : null;
 		} catch (error) {
 			console.error(error);
