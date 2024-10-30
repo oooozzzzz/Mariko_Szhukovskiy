@@ -51,9 +51,6 @@ ${
 
 export const AIHandler = async (ctx) => {
 	if (ctx.session.toChat) {
-		const typing = setInterval(async () => {
-			ctx.api.sendChatAction(ctx.from.id, "typing");
-		}, 1500);
 		const thread = ctx.session.thread_id;
 		if (ctx.msg.text === "!!") {
 			await clearMessageHistory(thread);
@@ -62,13 +59,11 @@ export const AIHandler = async (ctx) => {
 		try {
 			const { answer, order, photo } = await getAnswer(ctx.msg.text, thread);
 			console.log(answer);
-			console.log(photo);
 			if (photo) {
 				await ctx.api.sendPhoto(ctx.from.id, photo, { caption: answer });
 			} else {
 				await ctx.reply(answer);
 			}
-			clearInterval(typing);
 			order?.isCompleted ? await handleOrder(ctx, order) : null;
 		} catch (error) {
 			console.error(error);
