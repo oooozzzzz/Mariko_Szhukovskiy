@@ -52,10 +52,6 @@ ${
 export const AIHandler = async (ctx) => {
 	if (ctx.session.toChat) {
 		const thread = ctx.session.thread_id;
-		if (ctx.msg.text === "!!") {
-			await clearMessageHistory(thread);
-			return await ctx.reply("История очищена");
-		}
 		try {
 			const { answer, order, photo } = await getAnswer(ctx.msg.text, thread);
 			console.log(answer);
