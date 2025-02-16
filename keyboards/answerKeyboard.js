@@ -1,10 +1,9 @@
-import { InlineKeyboard } from"grammy";
+import { InlineKeyboard } from "grammy";
 
 export const generateAnswerKeyboard = (id) => {
 	const answerKeyboard = new InlineKeyboard().text(
 		"Ответить пользователю",
-		`question-${id}`
+		`question-${id}`,
 	);
-	return answerKeyboard
-}
-
+	return answerKeyboard;
+};

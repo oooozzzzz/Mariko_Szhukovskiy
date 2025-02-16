@@ -94,6 +94,8 @@ export const copyMessageToUsers = async (ctx) => {
 	function delay(ms) {
 		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
+
+	
 	const send = async (id) => {
 		await delay(500);
 		try {
