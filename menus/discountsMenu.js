@@ -5,7 +5,7 @@ const menu = [
 	{ label: "Скидка в День Рождения", text: "bd_text" },
 	{ label: "Скидка на самовывоз", text: "takeaway_text" },
 	{ label: "Бизнес-ланчи по будням", text: "lanches_text" },
-	{ label: "Хинкали по 25 рублей", text: "hinkali_text" },
+	// { label: "Хинкали по 25 рублей", text: "hinkali_text" },
 ];
 
 export const discountsMenu = new Menu("discountsMenu").dynamic(() => {
