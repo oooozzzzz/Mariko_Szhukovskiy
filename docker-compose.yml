@@ -1,0 +1,12 @@
+services:
+  app:  # Название сервиса (можно любое)
+    build: .  # Собираем образ из Dockerfile
+    ports:
+      - "3030:3000"  # Пробрасываем порт (host:container)
+    env_file: .env
+    environment:
+      - DATABASE_URL=file:/app/prisma/dev.db
+    volumes:
+      - ./prisma:/app/prisma  # Для сохранения SQLite файла
+    #   - ./:/app  # Если нужен hot-reload (для разработки)
+    #   - /app/node_modules  # Игнорируем локальную node_modules
